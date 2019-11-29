@@ -14,12 +14,17 @@
 | nodejs | - 安装node.js（12.13.1）<br>- 更换npm源为阿里源 | - | 
 | elasticsearch6.x | 安装 elasticsearch（6.8.5）单机或集群 | 9200 | 
 | elasticsearch7.x | 安装 elasticsearch（7.4.2）单机或集群 | 9200 | 
-| elasticsearch-head | 安装 elasticsearch-head 插件 | 9100 | 
+| elasticsearch-head | 安装 elasticsearch-head（5.0.0） 插件 | 9100 | 
 | skywalking6.x | 安装 skywalking（6.5.0） | 8080 | 
 | skywalking7.x | 安装 skywalking（7） | 8080 | 
 
 # 使用
 ```bash
+# 下载软件包
+$ cd shell
+$ chmod +x ./*.sh
+$ ./download-package.sh
+
 # 修改主机清单
 $ vim hosts
 

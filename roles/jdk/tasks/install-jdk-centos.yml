@@ -1,12 +1,12 @@
 ---
 # 在 CentOS 中安装 jdk1.8
-- name: 复制 jdk-8u211-linux-x64.rpm 到 /usr/local
+- name: 复制 jdk-8u131-linux-x64.rpm 到 目标主机
   copy: 
-    src: jdk-8u211-linux-x64.rpm 
+    src: jdk-8u131-linux-x64.rpm 
     dest: /usr/local/
 - name: Install jdk1.8
   yum:
-    name: /usr/local/jdk-8u211-linux-x64.rpm
+    name: /usr/local/jdk-8u131-linux-x64.rpm
     state: present
 - name: Check install
   shell: java -version

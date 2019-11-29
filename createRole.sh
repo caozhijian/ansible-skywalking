@@ -1,6 +1,6 @@
 #!/bin/bash
 # Program: 创建 Role
-# Author Kevin
+# Author iamwanglibing@qq.com
 source color.sh
 
 # 输出帮助
