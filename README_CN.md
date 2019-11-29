@@ -1,7 +1,7 @@
 # Introduction
-Install skywalking based on ansible.
+基于 Ansible 安装 Skywalking。
 
-[Chinese Document]([English Document](https://github.com/iamwlb/ansible-skywalking/README_CN.md))
+[英文文档](https://github.com/iamwlb/ansible-skywalking/README.md)
 
 # Support system
 
@@ -63,7 +63,7 @@ site.yml
     - { role: elasticsearch7.x }
 ```
 
-# Contact Us
+# 联系我们
 
 - Submit an [issues](https://github.com/iamwlb/ansible-skywalking/issues)
 - QQ：2531337681
