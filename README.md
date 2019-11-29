@@ -40,6 +40,12 @@ $ ansible-playbook -i hosts site.yml
 
 # 特殊说明
 
+## Elasticsearch 跟 Skywalking 版本选择
+
+- Elasticsearch 6.x 与 Skywalking 6.x 版本匹配
+- Elasticsearch 7.x 与 Skywalking 7.x 版本匹配
+- Skywalking 7.x 需要修改 shell/download-package.sh 脚本
+
 ## 使用 elasticsearch 6.x
 site.yml
 ```yaml
