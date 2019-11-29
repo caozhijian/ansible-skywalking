@@ -23,7 +23,7 @@
 # 下载项目
 $ git clone https://github.com/iamwlb/ansible-skywalking.git
 
-# 下载软件包
+# 下载软件包到本地
 $ cd ansible-shell/shell/
 $ chmod +x ./*.sh
 $ ./download-package.sh
