@@ -1,0 +1,9 @@
+# elasticsearch 配置
+## 修改集群名称为你的ES的集群名称
+cluster_name: ESCluster1    
+cluster_transport_sniffer: true
+## 修改集群节点为你的ES的集群节点地址
+cluster_nodes: 172.18.30.74:9200   
+index_shards_number: 2
+index_replicas_number: 0
+ttl: 7

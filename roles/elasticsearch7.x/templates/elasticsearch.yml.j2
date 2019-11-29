@@ -1,0 +1,83 @@
+# ======================== Elasticsearch Configuration =========================
+#
+# NOTE: Elasticsearch comes with reasonable defaults for most settings.
+#       Before you set out to tweak and tune the configuration, make sure you
+#       understand what are you trying to accomplish and the consequences.
+#
+# The primary way of configuring a node is via this file. This template lists
+# the most important settings you may want to configure for a production cluster.
+#
+# Please consult the documentation for further information on configuration options:
+# https://www.elastic.co/guide/en/elasticsearch/reference/index.html
+
+
+# ----------------------------------- Paths ------------------------------------
+
+# 配置数据存储目录
+path.data: {{ path_data }}
+
+# 配置日志存储目录设置索引数据的存储路径
+path.logs: {{ path_logs }}
+
+# 线程池的大小
+## Suitable for ElasticSearch 6 and 7
+thread_pool.write.queue_size: {{ thread_pool_write_queue_size }}
+
+# ---------------------------------- Cluster -----------------------------------
+# 配置集群名称
+## 默认是elasticsearch，es会自动发现在同一网段下的es，
+## 如果在同一网段下有多个集群，就可以用这个属性来区分不同的集群。
+## 确保不要在不同的环境中重复使用相同的集群名称，否则最终可能会导致节点加入了错误的集群.
+cluster.name: {{ cluster_name }}
+
+# 网卡绑定的 ip 地址
+## 默认情况下，Elasticsearch仅绑定到环回地址，
+## 例如127.0.0.1和[::1] 。这足以在服务器上运行单个开发节点。
+network.host: {{ network.host }}
+
+# 服务端口
+http.port: {{ http_port }}
+
+transport.host: {{ ansible_default_ipv4.address }}
+transport.tcp.port: {{ transport_tcp_port }}
+
+# 是否是 master 节点
+node.master: true
+
+# 是否是 date 节点
+node.data: true
+
+# 提供集群中符合主机要求的节点的列表
+## 指定 master 节点，让 es节点能够正确地加入集群
+## 开箱即用，无需任何网络配置，Elasticsearch将绑定到可用的环回地址，
+## 并将扫描本地端口9300至9305，以尝试连接到在同一服务器上运行的其他节点。
+## 这提供了自动群集体验，而无需进行任何配置。
+## 如果要与其他主机上的节点形成集群，则必须使用discovery。
+## seed_hosts设置提供集群中其他主机的列表，
+## 这些主机符合主机要求并且可能处于活动状态且可联系，以便为发现过程提供种子。
+## 此设置通常应包含集群中所有符合主机要求的节点的地址。
+## 此设置包含主机数组或逗号分隔的字符串。
+## 每个值都应采用host:port或host的形式
+## （如果未设置，则port默认为设置transport.profiles.default.port退回到transport.port ）
+## 请注意，IPv6主机必须放在方括号中. 此设置的默认值为127.0.0.1, [::1]
+discovery.seed_hosts: {{ discovery_seed_hosts }}
+
+# 集群的主机节点（多个用逗号分隔）
+## 首次启动全新的Elasticsearch集群时，会出现一个集群引导步骤，
+## 该步骤确定了在第一次选举中便对其票数进行计数的主资格节点的集合。
+## 在开发模式下 ，未配置发现设置，此步骤由节点自己自动执行。
+## 由于这种自动引导从本质上讲是不安全的 ，因此当您在生产模式下启动全新的集群时，
+## 必须显式列出符合资格的主机节点，并在第一次选举中对其投票进行计数。
+## 使用cluster.initial_master_nodes设置来设置此列表。
+## 重新启动群集或将新节点添加到现有群集时，不应使用此设置。
+cluster.initial_master_nodes: {{ cluster_initial_master_nodes }}
+
+discovery.zen.minimum_master_nodes: {{ discovery_zen_minimum_master_nodes }}
+
+# 开启跨域支持
+http.cors.enabled: {{ http_cors_enabled }}
+http.cors.allow-origin: "{{ http_cors_allow_origin }}"
+http.cors.allow-credentials: {{ http_cors_allow_credentials }}
+
+# 启用自动创建系统索引
+action.auto_create_index: {{ action_auto_create_index }}

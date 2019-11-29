@@ -1,0 +1,124 @@
+---
+
+- name: 关闭 Selinux
+  selinux: 
+    state: disabled
+
+- name: 关闭防火墙
+  firewalld:
+    state: disabled
+    permanent: yes
+
+- name: 设置时区
+  timezone:
+    name: Asia/Shanghai
+
+# 更换 yum 源为阿里源
+- name: 备份源
+  shell: mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+
+- name: 下载 阿里源
+  shell: wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+  
+- name: 生成缓存
+  shell: yum makecache
+
+- name: 安装 NTP 
+  yum: 
+    name: 'ntp'
+    state: present
+
+- name: ntp update
+  cron:
+    name: "ntp time sync - Frequency: {{ item.Times }}"
+    minute: "{{ item.Times }}"
+    job: "{{ item.Server }}"
+    state: present
+  loop:
+    - { Server: "ntpdate -u time1.aliyun.com" , Times: "*/10" }
+    - { Server: "ntpdate -u time1.aliyun.com" , Times: "*/20" }
+    - { Server: "ntpdate -u time1.aliyun.com" , Times: "*/30" }
+
+- name: 临时禁用交换
+  shell: swapoff -a 
+
+- name: 永久禁用交换
+  shell: sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+
+- name: 修改文件限制
+  lineinfile:
+    path: /etc/security/limits.conf
+    line: '* soft nofile 65536'
+    create: yes
+
+- name: 修改文件限制
+  lineinfile:
+    path: /etc/security/limits.conf
+    line: '* hard nofile 65536'
+    create: yes
+
+- name: 修改文件限制
+  lineinfile:
+    dest: /etc/security/limits.conf
+    line: '* soft nproc 2048'
+    create: yes
+
+- name: 修改文件限制
+  lineinfile:
+    dest: /etc/security/limits.conf
+    line: '* hard nproc 4096'
+    create: yes
+    
+- name: 调整虚拟内存
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: 'vm.max_map_count=262144'
+    create: yes
+
+- name: 调整最大并发连接
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: 'fs.file-max=655360'
+    create: yes
+
+- name: 配置 swappiness
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: 'vm.swappiness=1'
+    create: yes
+
+- name: 设置 IP 转发
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: yes
+    state: present
+    reload: yes
+- name: 设置 IP 转发
+  sysctl:
+    name: net.bridge.bridge-nf-call-ip6tables
+    value: '1'
+    sysctl_set: yes
+    state: present
+    reload: yes
+- name: 设置 IP 转发
+  sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: '1'
+    sysctl_set: yes
+    state: present
+    reload: yes
+- name: 设置 IP 转发
+  sysctl:
+    name: net.bridge.bridge-nf-call-arptables
+    value: '1'
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: 安装 vim 
+  yum: 
+    name: 'vim'
+    state: present
+
+

@@ -1,0 +1,21 @@
+---
+- hosts: elasticsearch
+  pre_tasks:
+    - name: 导入变量 
+      include_vars: group_vars/main.yml
+  roles: 
+    - { role: init }
+    - { role: elasticsearch6.x }
+
+- hosts: elasticsearch-head
+  roles:
+    - { role: elasticsearch-head }
+
+- hosts: skywalking
+  pre_tasks:
+    - name: 导入变量 
+      include_vars: group_vars/main.yml
+  roles:
+    - { role: init }
+    - { role: skywalking6.x }
+

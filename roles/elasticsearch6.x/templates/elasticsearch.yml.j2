@@ -1,0 +1,61 @@
+# ======================== Elasticsearch Configuration =========================
+#
+# NOTE: Elasticsearch comes with reasonable defaults for most settings.
+#       Before you set out to tweak and tune the configuration, make sure you
+#       understand what are you trying to accomplish and the consequences.
+#
+# The primary way of configuring a node is via this file. This template lists
+# the most important settings you may want to configure for a production cluster.
+#
+# Please consult the documentation for further information on configuration options:
+# https://www.elastic.co/guide/en/elasticsearch/reference/index.html
+
+
+# ----------------------------------- Paths ------------------------------------
+
+# 配置数据存储目录
+path.data: {{ path_data }}
+
+# 配置日志存储目录设置索引数据的存储路径
+path.logs: {{ path_logs }}
+
+# 线程池的大小
+## Suitable for ElasticSearch 6 and 7
+thread_pool.write.queue_size: {{ thread_pool_write_queue_size }}
+
+# ---------------------------------- Cluster -----------------------------------
+# 配置集群名称
+## 默认是elasticsearch，es会自动发现在同一网段下的es，
+## 如果在同一网段下有多个集群，就可以用这个属性来区分不同的集群。
+## 确保不要在不同的环境中重复使用相同的集群名称，否则最终可能会导致节点加入了错误的集群.
+cluster.name: {{ cluster_name }}
+
+# 网卡绑定的 ip 地址
+## 默认情况下，Elasticsearch仅绑定到环回地址，
+## 例如127.0.0.1和[::1] 。这足以在服务器上运行单个开发节点。
+network.host: {{ network_host }}
+
+# 服务端口
+http.port: {{ http_port }}
+
+transport.host: {{ ansible_default_ipv4.address }}
+transport.tcp.port: {{ transport_tcp_port }}
+
+# 是否是 master 节点
+node.master: true
+
+# 是否是 date 节点
+node.data: true
+
+# elasticsearch 6 only
+discovery.zen.ping.unicast.hosts: {{ discovery_zen_ping_unicast_hosts }}
+
+discovery.zen.minimum_master_nodes: {{ discovery_zen_minimum_master_nodes }}
+
+# 开启跨域支持
+http.cors.enabled: {{ http_cors_enabled }}
+http.cors.allow-origin: "{{ http_cors_allow_origin }}"
+http.cors.allow-credentials: {{ http_cors_allow_credentials }}
+
+# 启用自动创建系统索引
+action.auto_create_index: {{ action_auto_create_index }}

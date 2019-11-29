@@ -1,0 +1,19 @@
+[all]
+node1 ansible_host=172.18.30.73 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=vagrant
+node2 ansible_host=172.18.30.74 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=vagrant
+#node1 ansible_host=192.168.100.101 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=vagrant
+#node2 ansible_host=192.168.100.102 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=vagrant
+
+[elasticsearch]
+node1
+
+[elasticsearch-head]
+node1
+
+[skywalking]
+node2
+
+[skywalking-cluster:children]
+elasticsearch
+elasticsearch-head
+skywalking

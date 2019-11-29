@@ -1,0 +1,5 @@
+# 是否是 master 节点
+node_master: "true"
+
+# 是否是 date 节点
+node_data: "true"

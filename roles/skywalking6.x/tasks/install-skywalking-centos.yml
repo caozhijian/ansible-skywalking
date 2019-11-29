@@ -1,0 +1,30 @@
+---
+- name: 解压
+  unarchive:
+    src: apache-skywalking-apm-6.5.0.tar.gz
+    dest: /usr/local/
+
+- name: 创建软链接 
+  file:
+    src: /usr/local/apache-skywalking-apm-bin
+    dest: /usr/local/skywalking 
+    state: link
+
+- name: 配置 skywalking 
+  template:
+    src: application.yml.j2
+    dest: /usr/local/skywalking/config/application.yml
+
+- name: 启动 skywalking 
+  shell: 'nohup ./startup.sh &'
+  args:
+    executable: /bin/bash
+    chdir: '/usr/local/skywalking/bin/'
+
+- name: 检查 skywalking 进程状态
+  shell: ps -ef|grep skywalking
+  register: isSkywalkingStarted
+
+- name: 输出 skywalking 进程状态
+  debug:
+    var: isSkywalkingStarted

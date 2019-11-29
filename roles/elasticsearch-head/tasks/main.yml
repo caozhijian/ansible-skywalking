@@ -1,0 +1,50 @@
+---
+
+- name: 安装 grunt-cli
+  npm: 
+    name: grunt-cli
+    global: yes
+
+- name: 解压缩 elasticsearch-head
+  unarchive: 
+    src: elasticsearch-head.tar.gz
+    dest: /usr/local/
+
+- name: 安装 grunt
+  shell: npm install grunt --save
+  args: 
+    chdir: /usr/local/elasticsearch-head
+    
+- name: 安装 phantomjs-prebuilt 避免报错
+  npm:
+      name: phantomjs-prebuilt
+      version: '2.1.14'
+      ignore_scripts: true
+      path: /usr/local/elasticsearch-head
+
+- name: 安装依赖的 npm 包
+  shell: npm install
+  args: 
+    chdir: /usr/local/elasticsearch-head
+
+- name: 修复
+  shell: npm --registry https://registry.npmjs.org/ audit fix
+  args: 
+    chdir: /usr/local/elasticsearch-head
+
+- name: 启动 elasticsearch-head
+  shell: 'nohup grunt server &'
+  async: 10
+  poll: 0
+  args: 
+    chdir: /usr/local/elasticsearch-head
+
+- name: 检查启动进程
+  shell: ps -ef | grep grunt
+  register: gurntProcess
+
+- name: 输出 grunt 启动进程
+  debug: 
+    var: gurntProcess
+
+
